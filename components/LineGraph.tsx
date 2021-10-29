@@ -15,7 +15,7 @@ type LineGraphProps = {
 const LineGraph: React.FC<LineGraphProps> = (r: LineGraphProps) => {
   const [data, setData] = useState<Highcharts.Options>()
   useEffect(() => {
-    fetch("http://localhost:3000/api/gethistory?mp=" + r.mp).then(response => response.json()).then(data => {
+    fetch("http://cryptomines.ninja/api/gethistory?mp=" + r.mp).then(response => response.json()).then(data => {
       let opts: any = {
         rangeSelector: {
           selected: 1
