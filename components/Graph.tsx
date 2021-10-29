@@ -21,6 +21,16 @@ type Price = {
   std: number
 }
 
+type Point = {
+  x: number
+  high: number
+  q3: number
+  median: number
+  q1: number
+  low: number
+  count: number
+}
+
 type GraphProps = {
   prices: Record<number, Price>
 }
@@ -59,7 +69,7 @@ let options: Highcharts.Options = {
   }],
   tooltip: {
     formatter(tooltip) {
-      let point = this.point
+      let point = this.point as unknown as Point
       return '<em>Mine Power: ' + point.x + '</em><br/>' +
         'Maximum: ' + point.high + '<br/>' +
         'Upper quartile: ' + point.q3 + '<br/>' +
@@ -77,6 +87,7 @@ const Graph: React.FC<GraphProps> = (r: GraphProps) => {
     let p = r.prices[level]
     data.push({ x: parseInt(level), low: p.min, q1: p.q25, median: p.q50, q3: p.q75, high: p.max, count: p.count })
   }
+  // @ts-ignore
   options.series[0].data = data
 
   return <><HighchartsReact

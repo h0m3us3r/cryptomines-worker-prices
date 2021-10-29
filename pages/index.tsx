@@ -41,7 +41,7 @@ const Home: NextPage<MainProps> = (props: MainProps) => {
       </main>
 
       <footer className={styles.footer}>
-        Donate: TODO
+        Donate: 0xFE3B38864E3673f425EC4Cc5Cb8A367E0ff21d2e
       </footer>
     </div>
   )

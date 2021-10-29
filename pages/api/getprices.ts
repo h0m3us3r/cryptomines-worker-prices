@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { MongoClient } from 'mongodb'
 import * as d3 from 'd3'
-
+import { MongoURI } from './config'
 
 type Order<T> = {
   nftType?: number
@@ -42,7 +42,6 @@ type Price = {
   std: number
 }
 
-const MongoURI = 'mongodb://cryptomines:cryptomines$@localhost:27017/?authSource=cryptomines'
 const mongo = new MongoClient(MongoURI)
 const database = mongo.db("cryptomines");
 const workerOrders = database.collection<Order<Worker>>("marketplace");
