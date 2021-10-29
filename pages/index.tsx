@@ -1,9 +1,10 @@
 import type { NextPage, GetServerSideProps } from 'next'
+import { useState, useRef, useEffect } from 'react'
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import Graph from '../components/Graph'
+import BoxPlot from '../components/BoxPlot'
 import { getPrices } from './api/getprices'
+import LineGraph from '../components/LineGraph'
 
 type Price = {
   count: number
@@ -19,7 +20,10 @@ type MainProps = {
   prices: Record<number, Price>
 }
 
+
 const Home: NextPage<MainProps> = (props: MainProps) => {
+  const [selectedMP, selectMP] = useState<number>(0)
+
   return (
     <div className={styles.container}>
       <Head>
@@ -35,9 +39,17 @@ const Home: NextPage<MainProps> = (props: MainProps) => {
 
         <div className={styles.grid}>
           <div className={styles.block}>
-            <Graph prices={props.prices} />
+            <BoxPlot prices={props.prices} boxClicked={selectMP} />
           </div>
         </div>
+
+        {selectedMP !== 0 &&
+          <div className={styles.grid}>
+            <div className={styles.block}>
+              <LineGraph mp={selectedMP} />
+            </div>
+          </div>
+        }
       </main>
 
       <footer className={styles.footer}>

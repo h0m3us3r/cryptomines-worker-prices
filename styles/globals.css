@@ -15,3 +15,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.highcharts-point-select .highcharts-boxplot-box {
+  fill: rgba(255, 206, 69, 0.7) !important
+}

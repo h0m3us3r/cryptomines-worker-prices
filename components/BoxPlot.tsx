@@ -1,5 +1,3 @@
-import type { NextComponentType } from 'next'
-import React, { useEffect, RefObject, LegacyRef } from 'react'
 import * as Highcharts from 'highcharts'
 import HighchartsExporting from 'highcharts/modules/exporting'
 import HighchartsReact from 'highcharts-react-official'
@@ -31,8 +29,11 @@ type Point = {
   count: number
 }
 
+
+
 type GraphProps = {
   prices: Record<number, Price>
+  boxClicked: (mp: number) => void
 }
 
 let options: Highcharts.Options = {
@@ -65,7 +66,14 @@ let options: Highcharts.Options = {
     name: 'Worker Prices',
     type: 'boxplot',
     color: 'rgba(0, 0, 0, 0.7)',
-    fillColor: 'rgba(199, 192, 227, 0.7)'
+    fillColor: 'rgba(199, 192, 227, 0.7)',
+    allowPointSelect: true,
+    cursor: 'pointer',
+    point: {
+      events: {
+        click: undefined
+      }
+    }
   }],
   tooltip: {
     formatter(tooltip) {
@@ -81,7 +89,9 @@ let options: Highcharts.Options = {
   },
 }
 
-const Graph: React.FC<GraphProps> = (r: GraphProps) => {
+const BoxPlot: React.FC<GraphProps> = (r: GraphProps) => {
+  // @ts-ignore
+  options.series[0].point.events.click = (o: any) => r.boxClicked(o.point.category)
   let data = []
   for (let level in r.prices) {
     let p = r.prices[level]
@@ -96,4 +106,4 @@ const Graph: React.FC<GraphProps> = (r: GraphProps) => {
   /></>
 }
 
-export default Graph
+export default BoxPlot
