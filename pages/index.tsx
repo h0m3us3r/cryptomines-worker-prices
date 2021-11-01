@@ -52,7 +52,7 @@ const Home: NextPage<MainProps> = (props: MainProps) => {
           <div className={styles.block}>
             <h2>Fund new features &rarr;</h2>
             <ProgressBar
-              shortDescription={'Import All Marketplace Orders Since the Beggining of Time'}
+              shortDescription={'Import All Marketplace Orders Since the Beginning of Time'}
               fullDescription={
                 <p>
                   Scrape all marketplace logs and import everything into the database.<br></br>
