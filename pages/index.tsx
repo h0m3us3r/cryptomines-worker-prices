@@ -71,8 +71,8 @@ const Home: NextPage<MainProps> = (props: MainProps) => {
                 <p>
                   Provide a live feed of all listed to the marketplace workers in real time.<br></br>
                   Will support filtering by MP and/or max/min price as well as audible notifications.<br></br>
-                  Manual purchasing of workers from the live feed right on this page will be available, but might require extra funding.<br></br>
-                  Automatic purchasing will be available at a later date and will require extra funding<br></br><br></br>
+                  Manual purchasing of workers from the live feed right on this page will be available when this feature is realed.<br></br>
+                  Automatic purchasing will be available at a later date.<br></br><br></br>
                   Send your donations to the following address to fund this feature:<br></br>
                   <span className={styles.code}>0x60A93CC037Db063aeaA659029040a7cc59Cc0293</span>
                 </p>

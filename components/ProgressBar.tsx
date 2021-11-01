@@ -9,7 +9,7 @@ type ProgressBar = {
 }
 
 const ProgressBar: React.FC<ProgressBar> = (r: ProgressBar) => {
-  const [shown, setShown] = useState<boolean>(false)
+  const [shown, setShown] = useState<boolean>(true)
   return (
     <div className={styles.progressbarcontainer}>
       <div className={styles.progressbar} onClick={() => setShown(!shown)} style={shown ? { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 } : {}}>
