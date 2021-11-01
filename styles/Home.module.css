@@ -15,10 +15,15 @@
 .footer {
   display: flex;
   flex: 1;
-  padding: 2rem 0;
+  padding: 1rem 0;
   border-top: 1px solid #eaeaea;
+  border-left: 1px solid #eaeaea;
+  border-right: 1px solid #eaeaea;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   justify-content: center;
   align-items: center;
+  background-color: #fff;
 }
 
 .footer a {
@@ -51,15 +56,10 @@
   text-align: center;
 }
 
-.description {
-  line-height: 1.5;
-  font-size: 1.5rem;
-}
-
 .code {
-  background: #fafafa;
-  border-radius: 5px;
-  padding: 0.75rem;
+  background: #fcfcfc;
+  border-radius: 3px;
+  padding: 0.2rem;
   font-size: 1.1rem;
   font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
     Bitstream Vera Sans Mono, Courier New, monospace;
@@ -88,7 +88,7 @@
 }
 
 .block h2 {
-  margin: 0 0 1rem 0;
+  margin: 0 0 0 1rem;
   font-size: 1.5rem;
 }
 
@@ -101,6 +101,47 @@
 .logo {
   height: 1em;
   margin-left: 0.5rem;
+}
+
+.progressbarcontainer {
+  width: 100%;
+  padding: 1rem 1rem 0 1rem;
+}
+
+.progressbar {
+  height: 2rem;
+  background-color: #e0e0de;
+  border-radius: 5px;
+  cursor: pointer;
+  position: relative;
+}
+
+.progressbar .filler {
+  height: 100%;
+  background-color: rgba(199, 192, 227, 0.7);
+  border-radius: inherit;
+  float: left;
+}
+
+.progressbar .shortdescription {
+  font-size: 1.4rem;
+  margin: 0;
+  left: 0.5rem;
+  position: absolute;
+}
+
+.progressbar .label {
+  font-size: 1.4rem;
+  font-weight: bold;
+  right: 0.5rem;
+  position: absolute;
+}
+
+.progressbarcontainer .fulldescription {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 1rem;
+  border: 1px solid #eaeaea;
 }
 
 @media (max-width: 600px) {

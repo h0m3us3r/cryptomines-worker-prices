@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { MongoClient } from 'mongodb'
-import * as d3 from 'd3'
 import { MongoURI } from './config'
 
 type Order<T> = {

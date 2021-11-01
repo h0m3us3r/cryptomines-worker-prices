@@ -29,8 +29,6 @@ type Point = {
   count: number
 }
 
-
-
 type GraphProps = {
   prices: Record<number, Price>
   boxClicked: (mp: number) => void

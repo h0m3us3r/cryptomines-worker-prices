@@ -1,10 +1,12 @@
 import type { NextPage, GetServerSideProps } from 'next'
-import { useState, useRef, useEffect } from 'react'
+import { useState } from 'react'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import BoxPlot from '../components/BoxPlot'
 import { getPrices } from './api/getprices'
+import { getFunding } from './api/fundingstatus'
 import LineGraph from '../components/LineGraph'
+import ProgressBar from '../components/ProgressBar'
 
 type Price = {
   count: number
@@ -18,6 +20,7 @@ type Price = {
 }
 type MainProps = {
   prices: Record<number, Price>
+  funding: Record<string, number>
 }
 
 
@@ -41,15 +44,46 @@ const Home: NextPage<MainProps> = (props: MainProps) => {
           <div className={styles.block}>
             <BoxPlot prices={props.prices} boxClicked={selectMP} />
           </div>
-        </div>
-
-        {selectedMP !== 0 &&
-          <div className={styles.grid}>
+          {selectedMP !== 0 &&
             <div className={styles.block}>
               <LineGraph mp={selectedMP} />
             </div>
+          }
+          <div className={styles.block}>
+            <h2>Fund new features &rarr;</h2>
+            <ProgressBar
+              shortDescription={'Import All Marketplace Orders Since the Beggining of Time'}
+              fullDescription={
+                <p>
+                  Scrape all marketplace logs and import everything into the database.<br></br>
+                  Will allow for accurate historical data all the way since game start.<br></br>
+                  Both historical graph and <span className={styles.code}>/api/gethistory</span> will provide this data.<br></br><br></br>
+                  Send your donations to the following address to fund this feature:<br></br>
+                  <span className={styles.code}>0xD905797fa8820061a3d7210E2215B809E64A4aaA</span>
+                </p>
+              }
+              current={props.funding['0xD905797fa8820061a3d7210E2215B809E64A4aaA']}
+              max={1}
+            />
+            <ProgressBar
+              shortDescription={'Add a Filterable Real-Time Feed of Listed Workers'}
+              fullDescription={
+                <p>
+                  Provide a live feed of all listed to the marketplace workers in real time.<br></br>
+                  Will support filtering by MP and/or max/min price as well as audible notifications.<br></br>
+                  Manual purchasing of workers from the live feed right on this page will be available, but might require extra funding.<br></br>
+                  Automatic purchasing will be available at a later date and will require extra funding<br></br><br></br>
+                  Send your donations to the following address to fund this feature:<br></br>
+                  <span className={styles.code}>0x60A93CC037Db063aeaA659029040a7cc59Cc0293</span>
+                </p>
+              }
+              current={props.funding['0x60A93CC037Db063aeaA659029040a7cc59Cc0293']}
+              max={5} />
           </div>
-        }
+        </div>
+
+        {/* <div className={styles.grid}>
+          </div> */}
       </main>
 
       <footer className={styles.footer}>
@@ -60,7 +94,7 @@ const Home: NextPage<MainProps> = (props: MainProps) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  return { props: { prices: await getPrices() } }
+  return { props: { prices: await getPrices(), funding: await getFunding() } }
 }
 
 export default Home
