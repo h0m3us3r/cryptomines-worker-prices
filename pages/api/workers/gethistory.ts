@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { MongoClient } from 'mongodb'
-import { MongoURI } from './config'
+import { MongoURI } from '../config'
 
 type Order<T> = {
   nftType?: number

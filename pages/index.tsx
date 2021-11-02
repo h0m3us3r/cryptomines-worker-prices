@@ -3,7 +3,8 @@ import { useState } from 'react'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import BoxPlot from '../components/BoxPlot'
-import { getPrices } from './api/getprices'
+import { getWorkerPrices } from './api/workers/getprices'
+// import { getShipPrices } from './api/ships/getprices'
 import { getFunding } from './api/fundingstatus'
 import LineGraph from '../components/LineGraph'
 import ProgressBar from '../components/ProgressBar'
@@ -19,7 +20,8 @@ type Price = {
   std: number
 }
 type MainProps = {
-  prices: Record<number, Price>
+  workerPrices: Record<number, Price>
+  shipPrices: Record<number, Price>
   funding: Record<string, number>
 }
 
@@ -42,8 +44,11 @@ const Home: NextPage<MainProps> = (props: MainProps) => {
 
         <div className={styles.grid}>
           <div className={styles.block}>
-            <BoxPlot prices={props.prices} boxClicked={selectMP} />
+            <BoxPlot prices={props.workerPrices} boxClicked={selectMP} />
           </div>
+          {/* <div className={styles.block}>
+            <BoxPlot prices={props.shipPrices} boxClicked={() => { }} />
+          </div> */}
           {selectedMP !== 0 &&
             <div className={styles.block}>
               <LineGraph mp={selectedMP} />
@@ -66,13 +71,13 @@ const Home: NextPage<MainProps> = (props: MainProps) => {
               max={1}
             />
             <ProgressBar
-              shortDescription={'Add a Filterable Real-Time Feed of Listed Workers'}
+              shortDescription={'Add Real-Time Feed of All New Orders with Notifications and Automatic Buying'}
               fullDescription={
                 <p>
                   Provide a live feed of all listed to the marketplace workers in real time.<br></br>
-                  Will support filtering by MP and/or max/min price as well as audible notifications.<br></br>
-                  Manual purchasing of workers from the live feed right on this page will be available when this feature is realed.<br></br>
-                  Automatic purchasing will be available at a later date.<br></br><br></br>
+                  Will support filtering by MP and/or max/min price as well as provide audible notifications.<br></br>
+                  Manual buying of workers from this live feed will be available via Metamask integrations.<br></br>
+                  Automatic buying will also be available but will require direct <em>client side only</em> access to private key.<br></br><br></br>
                   Send your donations to the following address to fund this feature:<br></br>
                   <span className={styles.code}>0x60A93CC037Db063aeaA659029040a7cc59Cc0293</span>
                 </p>
@@ -81,9 +86,6 @@ const Home: NextPage<MainProps> = (props: MainProps) => {
               max={5} />
           </div>
         </div>
-
-        {/* <div className={styles.grid}>
-          </div> */}
       </main>
 
       <footer className={styles.footer}>
@@ -94,7 +96,13 @@ const Home: NextPage<MainProps> = (props: MainProps) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  return { props: { prices: await getPrices(), funding: await getFunding() } }
+  return {
+    props: {
+      workerPrices: await getWorkerPrices(),
+      shipPrices: {},//await getShipPrices(),
+      funding: await getFunding()
+    }
+  }
 }
 
 export default Home

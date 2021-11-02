@@ -1,7 +1,7 @@
 import HighchartsExporting from 'highcharts/modules/exporting'
 import HighchartsReact from 'highcharts-react-official'
 import Highcharts from 'highcharts/highstock'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 
 if (typeof Highcharts === 'object') {
@@ -15,7 +15,7 @@ type LineGraphProps = {
 const LineGraph: React.FC<LineGraphProps> = (r: LineGraphProps) => {
   const [data, setData] = useState<Highcharts.Options>()
   useEffect(() => {
-    fetch("/api/gethistory?mp=" + r.mp).then(response => response.json()).then(data => {
+    fetch("/api/workers/gethistory?mp=" + r.mp).then(response => response.json()).then(data => {
       let opts: any = {
         rangeSelector: {
           selected: 1

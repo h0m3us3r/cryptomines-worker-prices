@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { MongoClient } from 'mongodb'
 import * as d3 from 'd3'
-import { MongoURI } from './config'
+import { MongoURI } from '../config'
 
 type Order<T> = {
   nftType?: number
@@ -85,7 +85,7 @@ const fillPrice = (arr: number[]) => {
   }
 }
 
-export const getPrices = async () => {
+export const getWorkerPrices = async () => {
   await mongo.connect()
   const orders: Order<Worker>[] = await (workerOrders.find({ isAvailable: false, nftType: 0, unlistedAt: { $gt: new Date(Date.now() - 60 * 60 * 1000) } }, { projection: { _id: 0, price: 1, listedIn: 1, unlistedIn: 1, "nftData.minePower": 1 }, sort: { unlistedAt: -1 } }).toArray())
   mongo.close()
@@ -104,5 +104,5 @@ export const getPrices = async () => {
 }
 
 export default async (req: NextApiRequest, resp: NextApiResponse) => {
-  resp.status(200).json(await getPrices())
+  resp.status(200).json(await getWorkerPrices())
 }
