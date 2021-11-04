@@ -38,7 +38,7 @@ const workerOrders = database.collection<Order<Worker>>("marketplace");
 
 export const getHistory = async (mp: number) => {
   await mongo.connect()
-  const orders: Order<Worker>[] = await (workerOrders.find({ "nftData.minePower": mp, isAvailable: false, nftType: 0 }, { projection: { _id: 0, price: 1, listedIn: 1, unlistedIn: 1, unlistedAt: 1 }, sort: { unlistedAt: 1 }, limit: 1000 }).toArray())
+  const orders: Order<Worker>[] = await (workerOrders.find({ "nftData.minePower": mp, isAvailable: false, nftType: 0 }, { projection: { _id: 0, price: 1, listedIn: 1, unlistedIn: 1, unlistedAt: 1 }, sort: { unlistedAt: -1 }, limit: 1000 }).toArray())
   mongo.close()
 
   let history = new Array<[number, number]>();
@@ -46,7 +46,7 @@ export const getHistory = async (mp: number) => {
     history.push([order.unlistedAt.getTime(), order.price])
   })
 
-  return history
+  return history.reverse()
 }
 
 export default async (req: NextApiRequest, resp: NextApiResponse) => {

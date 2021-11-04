@@ -36,3 +36,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 pages/api/config.ts
+pages/api/workers/getmintprofit.ts

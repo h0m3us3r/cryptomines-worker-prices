@@ -87,7 +87,7 @@ const fillPrice = (arr: number[]) => {
 
 export const getShipPrices = async () => {
   await mongo.connect()
-  const orders: Order<Ship>[] = await (workerOrders.find({ isAvailable: false, nftType: 0, unlistedAt: { $gt: new Date(Date.now() - 60 * 60 * 1000) } }, { projection: { _id: 0, price: 1, listedIn: 1, unlistedIn: 1, "nftData.level": 1 }, sort: { unlistedAt: -1 } }).toArray())
+  const orders: Order<Ship>[] = await (workerOrders.find({ isAvailable: false, nftType: 0, unlistedAt: { $gt: new Date(Date.now() - 10 * 60 * 1000) } }, { projection: { _id: 0, price: 1, listedIn: 1, unlistedIn: 1, "nftData.level": 1 }, sort: { unlistedAt: -1 } }).toArray())
   mongo.close()
 
   const onlyPrices: Record<number, number[]> = {}

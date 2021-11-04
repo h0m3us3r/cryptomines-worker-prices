@@ -50,6 +50,16 @@ const roundTo = (n: number, to: number) => {
   return Math.round(n * 10 ** to) / (10 ** to)
 }
 
+const simplePrice = (arr: number[], q: number) => {
+  if (arr) {
+    arr = arr.sort((a: number, b: number) => a - b)
+    const price = d3.quantile(arr, q) as number
+    return price
+  } else {
+    return 0
+  }
+}
+
 const fillPrice = (arr: number[]) => {
   const digits = 4
 
@@ -85,7 +95,7 @@ const fillPrice = (arr: number[]) => {
   }
 }
 
-export const getWorkerPrices = async () => {
+export const getWorkerPrices = async (q: number = 0) => {
   await mongo.connect()
   const orders: Order<Worker>[] = await (workerOrders.find({ isAvailable: false, nftType: 0, unlistedAt: { $gt: new Date(Date.now() - 60 * 60 * 1000) } }, { projection: { _id: 0, price: 1, listedIn: 1, unlistedIn: 1, "nftData.minePower": 1 }, sort: { unlistedAt: -1 } }).toArray())
   mongo.close()
@@ -95,14 +105,30 @@ export const getWorkerPrices = async () => {
     (onlyPrices[order.nftData.minePower] || (onlyPrices[order.nftData.minePower] = [])).push(order.price)
   })
 
-  const prices: Record<number, Price> = {}
-  for (let i = 15; i < 256; ++i) {
-    prices[i] = fillPrice(onlyPrices[i])
-  }
+  if (!q) {
+    const prices: Record<number, Price> = {}
+    for (let i = 15; i < 256; ++i) {
+      prices[i] = fillPrice(onlyPrices[i])
+    }
 
-  return prices
+    return prices
+  } else {
+    let prices: number[] = []
+    for (let i = 15; i < 256; ++i) {
+      prices.push(simplePrice(onlyPrices[i], q))
+    }
+
+    return prices
+  }
 }
 
 export default async (req: NextApiRequest, resp: NextApiResponse) => {
-  resp.status(200).json(await getWorkerPrices())
+  const query = req.query.q
+  let q = 0
+  if (query !== undefined) {
+    q = parseFloat(query as string)
+    if (!q || q <= 0 || q >= 1)
+      q = 0.5
+  }
+  resp.status(200).json(await getWorkerPrices(q))
 }
