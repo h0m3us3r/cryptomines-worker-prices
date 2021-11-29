@@ -54,7 +54,7 @@ const Home: NextPage<MainProps> = (props: MainProps) => {
               <LineGraph mp={selectedMP} />
             </div>
           }
-          <div className={styles.block}>
+          {/* <div className={styles.block}>
             <h2>Fund new features &rarr;</h2>
             <ProgressBar
               shortDescription={'Import All Marketplace Orders Since the Beginning of Time'}
@@ -84,7 +84,7 @@ const Home: NextPage<MainProps> = (props: MainProps) => {
               }
               current={props.funding['0x60A93CC037Db063aeaA659029040a7cc59Cc0293']}
               max={5} />
-          </div>
+          </div> */}
         </div>
       </main>
 
